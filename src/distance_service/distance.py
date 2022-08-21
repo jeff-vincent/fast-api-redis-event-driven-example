@@ -12,11 +12,15 @@ async def reader():
                 await asyncio.sleep(0)
                 if message != None:
                     data = json.loads(message['data'])
-                    cd = CalculateDistance(data)
-                    cd.distance_from_velocity()
-                    calculated_data = json.dumps({'email': data['email'],
-                    'distance_from_velocity': cd.distance})
-                    await pub.publish('channel_2', calculated_data)
+                    try:
+                        cd = CalculateDistance(data)
+                        cd.distance_from_velocity()
+                        calculated_data = json.dumps({'email': data['email'],
+                        'distance_from_velocity': cd.distance})
+                        await pub.publish('channel_2', calculated_data)
+                    except Exception as e:
+                        print(str(e))
+                        pass
        
 class CalculateDistance:
     def __init__(self, data):
