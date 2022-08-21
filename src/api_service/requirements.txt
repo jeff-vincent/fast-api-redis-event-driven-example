@@ -10,3 +10,4 @@ sniffio==1.2.0
 starlette==0.19.1
 typing_extensions==4.3.0
 uvicorn==0.18.2
+python-multipart

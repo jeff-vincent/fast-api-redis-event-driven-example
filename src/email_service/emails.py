@@ -1,9 +1,13 @@
 import asyncio
-import os
-import smtplib
-import ssl
+import logging
 from redis import psub
 from mongo import users
+
+logging.basicConfig(filename='sent_emails',
+                    filemode='a',
+                    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+                    datefmt='%H:%M:%S',
+                    level=logging.DEBUG)
 
 async def reader():
     async with psub as p:
@@ -18,20 +22,17 @@ async def reader():
                     data_from_db = users.find({"email": email})
                     for i in data_from_db:
                         print(f'data from mongo: {i}')
-                        # send_email(i)
-
+                        send_email(email, i)
+                        
 def send_email(email, data):
-    port = 465
-    smtp_server = "smtp.gmail.com"
-    sender_email = os.environ.get('SENDER_EMAIL')
-    receiver_email = email
-    password = os.environ.get('SENDER_EMAIL_PASSWORD')
-    message = f'You are {data["distance_from_velocity"]} miles from Velocity.'
+    logging.info(f'Email sent to: {email}; Message: You are {data["distance_from_velocity"]} miles from Velocity.')
 
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message)
 
 if __name__ == '__main__':
         asyncio.run(reader())
+
+
+
+
+
+
