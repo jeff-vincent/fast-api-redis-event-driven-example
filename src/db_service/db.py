@@ -13,8 +13,7 @@ async def reader():
                 if message != None:
                     data = json.loads(message['data'])
                     insert_into_mongo(data)
-                    r = await pub.publish('channel_3', data['email'])
-                    print(r)
+                    await pub.publish('channel_3', data['email'])
 
 def insert_into_mongo(data):
     users.insert_one(data)

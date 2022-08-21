@@ -18,15 +18,12 @@ async def reader():
                 await asyncio.sleep(0)
                 if message != None:
                     email = ((message['data']).decode('utf-8'))
-                    print(f'data from redis: {email}')
                     data_from_db = users.find({"email": email})
                     for i in data_from_db:
-                        print(f'data from mongo: {i}')
                         send_email(email, i)
                         
 def send_email(email, data):
     logging.info(f'Email sent to: {email}; Message: You are {data["distance_from_velocity"]} miles from Velocity.')
-
 
 if __name__ == '__main__':
         asyncio.run(reader())

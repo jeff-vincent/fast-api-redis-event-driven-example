@@ -16,7 +16,6 @@ async def reader():
                     cd.distance_from_velocity()
                     calculated_data = json.dumps({'email': data['email'],
                     'distance_from_velocity': cd.distance})
-                    print(calculated_data)
                     await pub.publish('channel_2', calculated_data)
        
 class CalculateDistance:
