@@ -1,6 +1,5 @@
 import asyncio
 import json
-import aioredis
 from geopy.distance import geodesic
 from redis import psub, pub
 
@@ -18,8 +17,7 @@ async def reader():
                     calculated_data = json.dumps({'email': data['email'],
                     'distance_from_velocity': cd.distance})
                     print(calculated_data)
-                    r = await pub.publish('channel_2', calculated_data)
-                    print(r)
+                    await pub.publish('channel_2', calculated_data)
        
 class CalculateDistance:
     def __init__(self, data):
