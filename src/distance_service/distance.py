@@ -2,9 +2,7 @@ import asyncio
 import json
 import aioredis
 from geopy.distance import geodesic
-from redis import psub
-
-pub = aioredis.Redis.from_url("redis://localhost", decode_responses=True)
+from redis import psub, pub
 
 async def reader():
     async with psub as p:

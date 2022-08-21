@@ -1,21 +1,7 @@
 import asyncio
 import json
-import os
-import aioredis
-import pymongo
-from redis import psub
-
-MONGO_HOST = os.environ.get('MONGO_HOST')
-MONGO_PORT = os.environ.get('MONGO_PORT')
-
-pub = aioredis.Redis.from_url("redis://localhost", decode_responses=True)
-
-# TODO: define Redis consumer / publish email to Redis
-
-conn_str = f'mongodb://{MONGO_HOST}:{MONGO_PORT}'
-client = pymongo.MongoClient(conn_str, serverSelectionTimeoutMS=5000)
-db = client.example_db
-users = db.users
+from redis import psub, pub
+from mongo import users
 
 async def reader():
     async with psub as p:
@@ -29,7 +15,6 @@ async def reader():
                     insert_into_mongo(data)
                     r = await pub.publish('channel_3', data['email'])
                     print(r)
-
 
 def insert_into_mongo(data):
     users.insert_one(data)
