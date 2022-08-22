@@ -5,7 +5,7 @@ from mongo import users
 
 async def reader():
     async with psub as p:
-        await p.subscribe('channel_2')
+        await p.subscribe('calculated_distance')
         if p != None:
             while True:
                 message = await p.get_message(ignore_subscribe_messages=True)
@@ -13,7 +13,7 @@ async def reader():
                 if message != None:
                     data = json.loads(message['data'])
                     insert_into_mongo(data)
-                    await pub.publish('channel_3', data['email'])
+                    await pub.publish('user:email', data['email'])
 
 def insert_into_mongo(data):
     users.insert_one(data)

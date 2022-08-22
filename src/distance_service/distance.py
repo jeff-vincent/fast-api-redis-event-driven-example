@@ -5,7 +5,7 @@ from redis import psub, pub
 
 async def reader():
     async with psub as p:
-        await p.subscribe('channel_1')
+        await p.subscribe('raw_input')
         if p != None:
             while True:
                 message = await p.get_message(ignore_subscribe_messages=True)
@@ -17,7 +17,7 @@ async def reader():
                         cd.distance_from_velocity()
                         calculated_data = json.dumps({'email': data['email'],
                         'distance_from_velocity': cd.distance})
-                        await pub.publish('channel_2', calculated_data)
+                        await pub.publish('calculated_distance', calculated_data)
                     except Exception as e:
                         print(str(e))
                         pass

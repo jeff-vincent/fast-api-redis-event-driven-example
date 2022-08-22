@@ -13,7 +13,7 @@ async def index():
     return HTMLResponse(content=index_view, status_code=200)
 
 async def publish_to_redis(data: dict):
-    await pub.publish('channel_1', json.dumps(data))
+    await pub.publish('raw_input', json.dumps(data))
 
 @app.post("/distance")
 async def login(background_tasks: BackgroundTasks,

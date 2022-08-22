@@ -11,7 +11,7 @@ logging.basicConfig(filename='sent_emails',
 
 async def reader():
     async with psub as p:
-        await p.subscribe('channel_3')
+        await p.subscribe('user:email')
         if p != None:
             while True:
                 message = await p.get_message(ignore_subscribe_messages=True)
