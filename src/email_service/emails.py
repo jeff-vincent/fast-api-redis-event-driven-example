@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from redis import psub
+from redis import psub, pub
 from mongo import users
 
 logging.basicConfig(filename='sent_emails',
@@ -18,7 +18,7 @@ async def reader():
                 await asyncio.sleep(0)
                 if message != None:
                     email = ((message['data']).decode('utf-8'))
-                    data_from_db = users.find({"email": email})
+                    data_from_db = users.find({"email": email}).limit(1).sort([('$natural',-1)])
                     for i in data_from_db:
                         send_email(email, i)
                         
