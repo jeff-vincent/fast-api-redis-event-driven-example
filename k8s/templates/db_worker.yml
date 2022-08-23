@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    velocity.tech.v1/id: db_worker
+    velocity.tech.v1/id: db-worker
     velocity.tech.v1/dependsOn: redis, mongodb
   name: db-worker
   labels:
@@ -31,20 +31,3 @@ spec:
               value: {{ .Values.mongo_host | toJson  }}
             - name: MONGO_PORT
               value: {{ .Values.mongo_port | toJson  }}
-          ports:
-            - name: db-worker
-              containerPort: 8000
-              protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db-worker
-spec:
-  ports:
-    - port: 8000
-      targetPort: 8000
-      name: db-worker
-  selector:
-    app: db-worker
-  type: ClusterIP

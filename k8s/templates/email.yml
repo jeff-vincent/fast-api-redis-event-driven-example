@@ -31,21 +31,3 @@ spec:
               value: {{ .Values.mongo_host | toJson  }}
             - name: MONGO_PORT
               value: {{ .Values.mongo_port | toJson  }}
-          ports:
-            - name: email
-              containerPort: 8000
-              protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: email
-spec:
-  ports:
-    - port: 8000
-      targetPort: 8000
-      name: email
-  selector:
-    app: email
-  type: ClusterIP
-
