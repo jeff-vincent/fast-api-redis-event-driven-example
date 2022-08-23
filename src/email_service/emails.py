@@ -27,9 +27,3 @@ def send_email(email, data):
 
 if __name__ == '__main__':
         asyncio.run(reader())
-
-
-
-
-
-

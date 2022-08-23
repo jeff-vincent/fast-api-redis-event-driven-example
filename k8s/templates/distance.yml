@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    velocity.tech.v1/id: distance
+    velocity.tech.v1/dependsOn: redis, mongodb
+  name: distance
+  labels:
+    app: distance
+spec:
+  selector:
+    matchLabels:
+      api: distance
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: distance
+        api: distance
+    spec:
+      containers:
+        - name: api
+          image: jdvincent/distance:latest
+          env:
+            - name: REDIS_HOST
+              value: {{ .Values.redis_host | toJson  }}
+            - name: REDIS_PORT
+              value: {{ .Values.redis_port | toJson  }}
+          ports:
+            - name: distance
+              containerPort: 8000
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: distance
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: distance
+  selector:
+    app: distance
+  type: ClusterIP
+

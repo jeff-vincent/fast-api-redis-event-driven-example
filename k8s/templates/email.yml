@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    velocity.tech.v1/id: email
+    velocity.tech.v1/dependsOn: redis, mongodb
+  name: email
+  labels:
+    app: email
+spec:
+  selector:
+    matchLabels:
+      api: email
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: email
+        api: email
+    spec:
+      containers:
+        - name: email
+          image: jdvincent/email:latest
+          env:
+            - name: REDIS_HOST
+              value: {{ .Values.redis_host | toJson  }}
+            - name: REDIS_PORT
+              value: {{ .Values.redis_port | toJson  }}
+            - name: MONGO_HOST
+              value: {{ .Values.mongo_host | toJson  }}
+            - name: MONGO_PORT
+              value: {{ .Values.mongo_port | toJson  }}
+          ports:
+            - name: email
+              containerPort: 8000
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: email
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+      name: email
+  selector:
+    app: email
+  type: ClusterIP
+
