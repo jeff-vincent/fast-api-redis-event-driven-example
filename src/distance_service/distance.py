@@ -26,8 +26,8 @@ class CalculateDistance:
     def __init__(self, data):
         self.input_lat = data['lat']
         self.input_long = data['long']
-        self.velocity_lat = 32.080058
-        self.velocity_long = 34.864535
+        self.velocity_lat = 32.068227
+        self.velocity_long = 34.794876
         self.distance = None
        
     def distance_from_velocity(self):
