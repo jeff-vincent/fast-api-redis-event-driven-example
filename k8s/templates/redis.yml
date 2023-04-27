@@ -2,21 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    velocity.tech.v1/id: redis
   name: redis
   labels:
     app: redis
 spec:
   selector:
     matchLabels:
-      api: redis
+      app: redis
   replicas: 1
   template:
     metadata:
       labels:
         app: redis
-        api: redis
     spec:
       containers:
         - name: redis

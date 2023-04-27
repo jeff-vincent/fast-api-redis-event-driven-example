@@ -15,9 +15,3 @@ In a second terminal, from the `k8s` directory:
 ```shell
 helm template . --values values.yaml | kubectl apply -f -
 ```
-
-## Run in Velocity
-From the `k8s` directory, run:
-```shell
-helm template . --values velocity-values.yml | veloctl env creat -f -
-```

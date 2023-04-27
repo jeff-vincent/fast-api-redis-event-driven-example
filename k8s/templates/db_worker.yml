@@ -2,22 +2,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    velocity.tech.v1/id: db-worker
-    velocity.tech.v1/dependsOn: redis, mongodb
   name: db-worker
   labels:
     app: db-worker
 spec:
   selector:
     matchLabels:
-      api: db-worker
+      app: db-worker
   replicas: 1
   template:
     metadata:
       labels:
         app: db-worker
-        api: db-worker
     spec:
       containers:
         - name: api

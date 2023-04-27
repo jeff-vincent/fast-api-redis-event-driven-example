@@ -1,6 +1,0 @@
-redis_port: "{velocity.v1:redis.exposures(port=redis).port}"
-redis_host: "{velocity.v1:redis.exposures(port=redis).host}"
-mongo_port: "{velocity.v1:mongodb.exposures(port=mongo).port}"
-mongo_host: "{velocity.v1:mongodb.exposures(port=mongo).host}"
-ingress_host: "api-{velocity.v1.domainSuffix}"
-ingress_class_name: null
